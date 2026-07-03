@@ -1,0 +1,24 @@
+resources:
+  jobs:
+    resultados_electorales_pipeline:
+      name: resultados-electorales-pipeline
+      tasks:
+        - task_key: Ingesta_bronze
+          notebook_task:
+            notebook_path: /Workspace/resultados-electorales-pipeline/01_ingesta_bronze
+            source: WORKSPACE
+        - task_key: Transformacion_Silver
+          depends_on:
+            - task_key: Ingesta_bronze
+          notebook_task:
+            notebook_path: /Workspace/resultados-electorales-pipeline/02_transformacion_silver
+            source: WORKSPACE
+        - task_key: Modelado_Gold
+          depends_on:
+            - task_key: Transformacion_Silver
+          notebook_task:
+            notebook_path: /Workspace/resultados-electorales-pipeline/03_modelado_gold
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
