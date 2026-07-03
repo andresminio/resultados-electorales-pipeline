@@ -41,13 +41,16 @@ Gold
         ├── Dimensiones
         └── Data Mart Resumen Mesa
 ```
-
+## Tecnologías utilizadas
 La solución utiliza:
 
-- Databricks
+- Python
 - PySpark
+- SQL
+- Databricks
 - Delta Lake
 - Unity Catalog
+- Databricks Workflows
 
 ---
 
@@ -169,3 +172,14 @@ Cada notebook representa una etapa independiente del pipeline y puede ejecutarse
 - **Full refresh** debido al carácter histórico e inmutable de la información.
 - Validaciones de calidad antes de publicar datos.
 - Modelo **Snowflake** para representar la jerarquía territorial.
+
+ # Orquestación
+
+La ejecución del pipeline se encuentra orquestada mediante **Databricks Workflows**, que coordina la ejecución secuencial de cada etapa del proceso:
+
+1. Carga de parámetros.
+2. Ingesta de datos en Bronze.
+3. Transformación y validaciones en Silver.
+4. Modelado dimensional en Gold.
+
+La definición del workflow se encuentra versionada en el archivo `resultados_pipeline.yml`, permitiendo reproducir la orquestación del proceso como código
